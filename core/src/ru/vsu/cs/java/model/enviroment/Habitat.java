@@ -1,14 +1,9 @@
 package ru.vsu.cs.java.model.enviroment;
 
-import ru.vsu.cs.java.model.characters.Person;
-import ru.vsu.cs.java.model.characters.Profession;
 import ru.vsu.cs.java.model.RandomContainer;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.Hashtable;
 
 /**
  * Среда обитания.

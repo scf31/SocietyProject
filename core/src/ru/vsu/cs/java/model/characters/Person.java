@@ -12,7 +12,7 @@ import static ru.vsu.cs.java.model.characters.Profession.Warrior;
 /**
  * Фундментальый класс человека
  **/
-public class Person implements IPersonToStrategy {
+public class Person implements IPersonToStrategy,IPersonToView {
 
     private int health;
     private int maxHealth;
@@ -49,7 +49,7 @@ public class Person implements IPersonToStrategy {
         this.maxHealth = maxHealth;
     }
 
-    private int getExperience() {
+    public int getExperience() {
         return experience;
     }
 
@@ -57,7 +57,7 @@ public class Person implements IPersonToStrategy {
         this.experience = experience;
     }
 
-    private int getLevel() {
+    public int getLevel() {
         return level;
     }
 
@@ -84,7 +84,7 @@ public class Person implements IPersonToStrategy {
         this.review = review;
     }
 
-    private int getBag() {
+    public int getBag() {
         return bag;
     }
 
