@@ -78,11 +78,7 @@ public class PeasantStrategy implements IStrategy {
         else
             return false;
     }
-    /// <summary>
     /// Проверка специально для крестьянина на присутствие разбойников в поле зрения.
-    /// </summary>
-    /// <param name="person">Персонаж.</param>
-    /// <param name="pEnvir">Персонажи  области видимости.</param>
     private Run CheckEnviroment(IPersonToStrategy person, PersonalEnvironment pEnvir, Habitat setllement)
     {
         for(IPersonToStrategy p : pEnvir.NearestCharacters)

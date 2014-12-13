@@ -40,12 +40,8 @@ public class TraderStrategy implements IStrategy {
         return Actions.free();
 
     }
-    /// <summary>
     /// Проверка на опсность для жизни.
     /// В случае опасности стратегия переключается на безопасную.
-    /// </summary>
-    /// <param name="person">Персонаж.</param>
-    /// <returns>В опасности или нет.</returns>
     private boolean inDangerous(IPersonToStrategy person)
     {
         return person.getHealth() < 25;

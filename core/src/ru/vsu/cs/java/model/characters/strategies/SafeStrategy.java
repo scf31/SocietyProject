@@ -66,7 +66,7 @@ public class SafeStrategy implements IStrategy {
                 return decision;
             }
         }
-        if (person.getLocation() == settlement.MarketPlace[0].place.getLocation())
+        if (person.getLocation() == settlement.MarketPlace.get(0).place.getLocation())
         {
             BuyingMedicine decision = new BuyingMedicine();
             decision.newState = PersonState.Ready;
@@ -89,7 +89,7 @@ public class SafeStrategy implements IStrategy {
                 return run;
             }
         }
-        run.Destination = new Point(settlement.MarketPlace[0].place.x, settlement.MarketPlace[0].place.y);
+        run.Destination = new Point(settlement.MarketPlace.get(0).place.x, settlement.MarketPlace.get(0).place.y);
         return run;
     }
 

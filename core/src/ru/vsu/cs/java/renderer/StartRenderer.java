@@ -23,6 +23,8 @@ public class StartRenderer {
         widthRatio  = Gdx.graphics.getWidth();
         heightRatio = Gdx.graphics.getHeight();
 
+        Kingdom kingdom = new Kingdom(20,(int)widthRatio,(int)heightRatio);
+
         font = new BitmapFont() {{
             setColor(Color.NAVY);
         }};

@@ -30,8 +30,6 @@ public class Person implements IPersonToStrategy {
     private Decision decision;
     private Person opponent;
 
-
-
     public int getHealth() {
         return health;
     }
@@ -174,17 +172,12 @@ public class Person implements IPersonToStrategy {
         setDecision(Actions.free());
     }
 
-    public Person clone() throws CloneNotSupportedException {
-        return (Person)super.clone();
-    }
-
-
-
     public void setEqip(Weapon newWeapon, Armor newArmor, int newCash){
         getEquipment().сhangeWeapon(newWeapon);
         getEquipment().сhangeArmor(newArmor);
         getEquipment().newCash(newCash);
     }
+
     public void setFillingBag(int newbag)
     {
         setBag(newbag);
@@ -199,17 +192,17 @@ public class Person implements IPersonToStrategy {
                 getEquipment().сhangeArmor(Equipment.StandartEquipment.Armors.MediumArmor);
                 getEquipment().сhangeCash(10);
                 setStrategy(new WarriorStrategy());
-                setReview( 90);
+                setReview(90);
                 setSpeed(80);
-                setProfession( Warrior);
+                profession = Warrior;
                 setStatus(PersonState.LastActionCompleted);
                 break;
             case Trader:
                 setEquipment(new Equipment(Equipment.StandartEquipment.Weapons.Hands, Equipment.StandartEquipment.Armors.NoneArmor, 100));
-                setStrategy( new TraderStrategy());
+                setStrategy(new TraderStrategy());
                 setReview(100);
                 setSpeed(100);
-                setProfession(Trader);
+                profession = Trader;
                 setStatus(PersonState.Moving);
                 break;
             case Robber:
@@ -218,7 +211,7 @@ public class Person implements IPersonToStrategy {
                 setSpeed( 125);
                 setStatus(PersonState.LastActionCompleted);
                 setStrategy(new RobberStrategy());
-                setProfession(Robber);
+                profession = Robber;
                 break;
             case Peasant:
                 getEquipment().сhangeWeapon(Equipment.StandartEquipment.Weapons.Hands);
@@ -228,7 +221,7 @@ public class Person implements IPersonToStrategy {
                 setReview( 100);
                 setSpeed( 100);
                 setStrategy(new PeasantStrategy());
-                setProfession(Peasant);
+                profession =Peasant;
                 break;
             case Craftsman:
                 setSpeed(80);
@@ -238,17 +231,14 @@ public class Person implements IPersonToStrategy {
                 setReview(100);
                 setStatus(PersonState.LastActionCompleted);
                 setStrategy(new CraftsmanStrategy());
-                setProfession(Craftsman);
+                profession = Craftsman;
                 break;
         }
     }
+
     public int getLvlBonus()
     {
         return getLevel() > 0 ? getLevel() : 1;
-    }
-
-    public Decision takeDecision(PersonalEnvironment personalEnviroment, Habitat settlement) {
-        return getStrategy().takeDecision(this,personalEnviroment,settlement);
     }
 
     public Decision getLastDecision(){
@@ -273,18 +263,12 @@ public class Person implements IPersonToStrategy {
             setHealth(getHealth()+delta);
         }
     }
-    public void changeEqip(Weapon newWeapon)
-    {
-        if (newWeapon != null) getEquipment().сhangeWeapon(newWeapon);
-    }
-    public void changeEqip(Armor newArmor)
-    {
-        if (newArmor != null) getEquipment().сhangeArmor(newArmor);
-    }
+
     public void addMoney(int delta)
     {
         getEquipment().сhangeCash(delta);
     }
+
     public int takeMoney(int delta)
     {
         if (delta <= getEquipment().howMoneyInCash())
@@ -295,20 +279,24 @@ public class Person implements IPersonToStrategy {
         else
             return 0;
     }
+
     public int takeAllMoney()
     {
         int n = getEquipment().howMoneyInCash();
         getEquipment().сhangeCash(-n);
         return n;
     }
+
     public void addInBag(int adding)
     {
         setBag(getBag()+adding);
     }
-    public void changeStrategy(IStrategy newstrategy)
+
+    public void changeStrategy(IStrategy newStrategy)
     {
-        setStrategy(newstrategy);
+        setStrategy(newStrategy);
     }
+
     public void addExp(int x)
     {
         if (getExperience() + x > 1000)

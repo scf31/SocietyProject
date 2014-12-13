@@ -81,12 +81,8 @@ public class CraftsmanStrategy implements IStrategy {
         }
         return Actions.free();
     }
-    /// <summary>
     /// Проверка на опсность для жизни.
     /// В случае опасности стратегия переключается на безопасную.
-    /// </summary>
-    /// <param name="person">Персонаж.</param>
-    /// <returns>В опасности или нет.</returns>
     private static boolean InDangerous(IPersonToStrategy person)
     {
         if (person.getHealth() < 25)
@@ -94,11 +90,7 @@ public class CraftsmanStrategy implements IStrategy {
         else
             return false;
     }
-    /// <summary>
     /// Проверка специально для ремесленника на присутствие разбойников в поле зрения.
-    /// </summary>
-    /// <param name="person">Персонаж.</param>
-    /// <param name="pEnvir">Персонажи  области видимости.</param>
     private static Run CheckEnviroment(IPersonToStrategy person, PersonalEnvironment pEnvir)
     {
         for (IPersonToStrategy p : pEnvir.NearestCharacters)

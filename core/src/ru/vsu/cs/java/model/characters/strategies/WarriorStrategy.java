@@ -31,7 +31,7 @@ public class WarriorStrategy implements IStrategy {
         {
             case LastActionCompleted:
                 if (CheckEnviroment(person, pEnvir) == null)
-                    return Actions.patroling(settlement);
+                    return Actions.patrolling(settlement);
                 else
                     return CheckEnviroment(person, pEnvir);
             case Moving:
@@ -74,11 +74,7 @@ public class WarriorStrategy implements IStrategy {
         else
             return false;
     }
-    /// <summary>
     /// Проверка специально для война на присутствие разбойников в поле зрения.
-    /// </summary>
-    /// <param name="person">Персонаж.</param>
-    /// <param name="pEnvir">Персонажи  области видимости.</param>
     private Run CheckEnviroment(IPersonToStrategy person, PersonalEnvironment pEnvir)
     {
         for (IPersonToStrategy p : pEnvir.NearestCharacters)

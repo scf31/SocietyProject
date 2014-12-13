@@ -49,7 +49,7 @@ public class Actions {
         decision.nextAction = ActionType.Free;
         return decision;
     }
-    public static MoveToPoint patroling(Habitat settlement)
+    public static MoveToPoint patrolling(Habitat settlement)
     {
         MoveToPoint decision = new MoveToPoint();
         decision.destination = new Point((int)(Math.random() * ((settlement.getWight()) + 1)),(int)(Math.random() * ((settlement.getHeight()) + 1)));

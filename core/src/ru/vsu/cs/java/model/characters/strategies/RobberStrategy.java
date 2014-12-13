@@ -21,7 +21,7 @@ public class RobberStrategy implements IStrategy
         {
             case LastActionCompleted:
                 if (CheckEnviroment(person, personEnvir) == null)
-                    return Actions.patroling(settlement);
+                    return Actions.patrolling(settlement);
                 else
                     return CheckEnviroment(person, personEnvir);
             case Moving:
@@ -60,12 +60,8 @@ public class RobberStrategy implements IStrategy
         }
         return Actions.free();
     }
-    /// <summary>
 /// Проверка на опсность для жизни.
 /// В случае опасности стратегия переключается на безопасную.
-/// </summary>
-/// <param name="person">Персонаж.</param>
-/// <returns>В опасности или нет.</returns>
     private boolean inDangerous(IPersonToStrategy person)
     {
         if (person.getHealth() < 25)
@@ -73,11 +69,7 @@ public class RobberStrategy implements IStrategy
         else
             return false;
     }
-    /// <summary>
 /// Проверка специально для разбойника на присутствие воинов в поле зрения.
-/// </summary>
-/// <param name="person">Персонаж.</param>
-/// <param name="pEnvir">Персонажи  области видимости.</param>
     private Run CheckEnviroment(IPersonToStrategy person, PersonalEnvironment pEnvir)
     {
         for (IPersonToStrategy p : pEnvir.NearestCharacters)

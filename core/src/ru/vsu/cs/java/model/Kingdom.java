@@ -10,36 +10,20 @@ import java.util.Hashtable;
  */
 public class Kingdom
 {
-    Habitat _settlement;
+    private Habitat _settlement;
+    private Hashtable<Integer, Person> _settlers = new Hashtable<Integer, Person>();
 
-    private Hashtable<Integer, Person> settlers = new Hashtable<Integer, Person>();
     public Kingdom(int countOfSettlers, int drawAreaWidht, int drawAreaHeight)
     {
 
-        _settlement = new Habitat(settlers, drawAreaWidht, drawAreaHeight);
+        _settlement = new Habitat(drawAreaWidht, drawAreaHeight);
         PersonFactory factory = new PersonFactory(_settlement);
         for (int i = 0; i <= countOfSettlers; i++)
-        {
-            Person man = null;
-            try {
-                man = factory.getMan();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-            settlers.put(i, man);
-        }
-        _settlement.refreshLocation(settlers);
+            _settlers.put(i,factory.getMan());
     }
-    public Person getCharacter(int id)
-    {
-        return settlers.get(id);
+    public Hashtable<Integer,Person> getCharacters(){
+        return _settlers;
     }
-    /** Получить словарь ID-IPerson всех персонажей мира.**/
-    public Hashtable<Integer, Person> getDictionaryOfCharacters()
-    {
-        return settlers;
-    }
-    /** Получить контейнер окружающей среды. **/
     public Habitat getHabitat()
     {
         return _settlement;

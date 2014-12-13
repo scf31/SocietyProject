@@ -24,7 +24,7 @@ public interface IPersonToStrategy {
     IStrategy getStrategy();
     Profession getProfession();
     void setDecision(Decision newDecision);
-    void changeStrategy(IStrategy newstrategy);
+    void changeStrategy(IStrategy newStrategy);
 
 }
 
