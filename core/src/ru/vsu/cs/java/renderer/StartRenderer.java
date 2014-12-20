@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.PauseableThread;
 import ru.vsu.cs.java.model.Engine;
 import ru.vsu.cs.java.model.Kingdom;
 import ru.vsu.cs.java.model.characters.Person;
@@ -29,14 +30,11 @@ public class StartRenderer {
             setColor(Color.NAVY);
         }};
 
-        //Пример создания движка. 10 - кол-во поселенцев (можно любое число)
-        engine = new Engine(10,(int)widthRatio,(int)heightRatio);
+        //Пример создания движка. 30 - кол-во поселенцев (можно любое число)
+        engine = new Engine(30,(int)widthRatio,(int)heightRatio);
 
-        //Дальше нужно создать поток, в нем вызывать метод engine.step()
-        //и паузить поток на 30 милиссекунд (примерное число,выясним наилучшее значение экспириментально)
+        engine.step();
 
-        // Получить данные о всех персонажах можно через engine.getCharactersData()
-        // Получить данные об объектах на карте можно через engine.getMapData()
 
     }
 

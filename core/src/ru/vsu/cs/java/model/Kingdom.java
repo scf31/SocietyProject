@@ -18,7 +18,7 @@ public class Kingdom
 
         _settlement = new Habitat(drawAreaWidht, drawAreaHeight);
         PersonFactory factory = new PersonFactory(_settlement);
-        for (int i = 0; i <= countOfSettlers; i++)
+        for (int i = 0; i <countOfSettlers; i++)
             _settlers.put(i,factory.getMan());
     }
     public Hashtable<Integer,Person> getCharacters(){

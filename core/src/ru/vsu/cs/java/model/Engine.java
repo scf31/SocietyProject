@@ -13,7 +13,7 @@ import java.util.Hashtable;
 /**
  * Created by VioLeY on 13.12.2014.
  */
-public class Engine {
+public class Engine  {
 
     private Kingdom kingdom;
 

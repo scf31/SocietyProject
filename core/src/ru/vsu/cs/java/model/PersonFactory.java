@@ -21,7 +21,7 @@ public class PersonFactory
     {
         RandomContainer random = new RandomContainer();
         Person man = new Person(id);
-        byte luck = (byte)random.next(1,6);
+        byte luck = (byte)random.next(1,5);
         if (luck == 1){
             warriorDecorator.takeProfession(man,settlement);
         }

@@ -11,14 +11,15 @@ import java.util.*;
  */
 public class PersonalEnvironment {
 
-    public Collection<Person> NearestCharacters;
+    public ArrayList<Person> NearestCharacters;
 
     public PersonalEnvironment(Person person, Kingdom world)
     {
+
+        ArrayList<Person> allCharacters = new ArrayList<Person>(world.getCharacters().values());
         NearestCharacters = new ArrayList<Person>();
-        NearestCharacters = world.getCharacters().values();
-        for (Person man : NearestCharacters)
-            if (Math.sqrt(Math.pow(man.getLocation().x - person.getLocation().x, 2) + Math.pow(man.getLocation().y - person.getLocation().y, 2)) <= person.getReview())
+        for (Person man : allCharacters)
+            if (Math.sqrt(Math.pow(man.getLocation().getX() - person.getLocation().getX(), 2) + Math.pow(man.getLocation().getY() - person.getLocation().getY(), 2)) <= (double)person.getReview())
                 NearestCharacters.add(man);
     }
 
