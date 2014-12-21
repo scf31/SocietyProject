@@ -16,18 +16,27 @@ public class StartScreen extends AbstractScreen {
 
     public StartScreen(Game game) {
         super(game);
+        renderer = new StartRenderer();
     }
 
 
     @Override
     public void show() {
         super.show();
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean mouseMoved(int screenX, int screenY) {
+                screenY = Gdx.graphics.getHeight() - screenY;
+                renderer.moveOnWarrior(screenX,screenY);
+                return true;
+            }
+        });
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        renderer = new StartRenderer();
+
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
