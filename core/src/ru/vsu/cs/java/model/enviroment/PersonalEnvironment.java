@@ -15,7 +15,6 @@ public class PersonalEnvironment {
 
     public PersonalEnvironment(Person person, Kingdom world)
     {
-
         ArrayList<Person> allCharacters = new ArrayList<Person>(world.getCharacters().values());
         NearestCharacters = new ArrayList<Person>();
         for (Person man : allCharacters)
