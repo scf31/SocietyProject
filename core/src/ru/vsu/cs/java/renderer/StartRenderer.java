@@ -17,8 +17,8 @@ import java.util.*;
  */
 public class StartRenderer {
 
-    private static final int CHARACTERS_HEIGTH = 40;
-    private static final int CHARACTERS_WIDTH = 40;
+    private static final int CHARACTERS_HEIGTH = 50;
+    private static final int CHARACTERS_WIDTH = 50;
     private static final int CASTLE_HEIGTH = 300;
     private static final int CASTLE_WIDTH = 150;
 
@@ -68,7 +68,7 @@ public class StartRenderer {
 
         showCharId = new HashSet<Integer>();
 
-        backSprite = new TextureRegion(new Texture(Gdx.files.internal("gfx/backSprite.png")));
+        backSprite = new TextureRegion(new Texture(Gdx.files.internal("gfx/grass.png")));
 
         start = new TextureRegion(new Texture(Gdx.files.internal("gfx/start.jpg")));
         exit = new TextureRegion(new Texture(Gdx.files.internal("gfx/exit.jpg")));
