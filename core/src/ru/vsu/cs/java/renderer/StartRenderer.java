@@ -151,16 +151,12 @@ public class StartRenderer {
                 case Peasant:
                     batch.draw(peasant, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
                     break;
-//                case Warrior:
-//                    batch.draw(warrior, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
-//                    break;
-//                case Warrior:
-//                    batch.draw(warrior, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
-//                    break;
-//                case Warrior:
-//                    batch.draw(warrior, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
-//                    break;
-
+                case Robber:
+                    batch.draw(warrior_btn, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
+                    break;
+                case Trader:
+                    batch.draw(craftman_btn, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
+                    break;
             }
         }
 
@@ -190,6 +186,11 @@ public class StartRenderer {
             batch.draw(info,widthRatio - 120, heightRatio/ 2 - 20);
         }
         engine.step();
+        try {
+            Thread.sleep(80);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void moveOn(int x, int y){
