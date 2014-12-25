@@ -100,8 +100,6 @@ public class StartRenderer {
         //Пример создания движка. 30 - кол-во поселенцев (можно любое число)
         engine = new Engine(30,(int)widthRatio,(int)heightRatio);
 
-        engine.step();
-
 
     }
 
@@ -124,7 +122,7 @@ public class StartRenderer {
             Rectangle rect = entry.getValue();
 
             if (name.equals("castle")){
-                batch.draw(castle, (int) rect.getX(), (int) rect.getY() + (int)rect.getHeight() , (int) rect.getWidth() , (int)rect.getHeight());
+                batch.draw(castle, (int) rect.getX(), (int) rect.getY(), (int) rect.getWidth() , (int)rect.getHeight());
             }
             if (name.equals("crafthouse")){
                 batch.draw(crafthouse, (int) rect.getX(), (int) rect.getY() + (int)rect.getHeight() , (int) rect.getWidth() , (int)rect.getHeight());
@@ -133,7 +131,7 @@ public class StartRenderer {
 
         for (IPersonToView person : characters){
 
-            if (showCharId != null && !showCharId.isEmpty()){
+            if (showCharId != null && !showCharId.isEmpty() && !onWarBtn && !onPeasBtn && !onCraftBtn){
                 for (int id : showCharId){
                     if (person.getId() == id){
                         batch.draw(charInfo,person.getLocation().x - CHARACTERS_WIDTH/2 , person.getLocation().y + CHARACTERS_HEIGTH/2 + 3, 50, 50);
@@ -191,7 +189,6 @@ public class StartRenderer {
         if (onPeasBtn){
             batch.draw(info,widthRatio - 120, heightRatio/ 2 - 20);
         }
-//        engine.step();
     }
 
     public void moveOn(int x, int y){
