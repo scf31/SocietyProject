@@ -22,17 +22,19 @@ public class Engine  {
     }
     public void step(){
         Hashtable<Integer,Person> hashtable = kingdom.getCharacters();
+        ArrayList<Integer> idToDelelte = new ArrayList<Integer>();
         for (Person man : hashtable.values()) {
             if (man.getStatus() != PersonState.Died && man.getHealth() > 0) {
                 Decision newDecision = man.getStrategy().takeDecision(man, new PersonalEnvironment(man, kingdom), kingdom.getHabitat());
                 man.setDecision(newDecision);
                 if (newDecision != null)
                     newDecision.apply(man);
+                if (man.getStatus()==PersonState.Died)
+                    idToDelelte.add(man.getId());
             }
         }
-        for (Person man : hashtable.values()) {
-            if (man.getStatus()==PersonState.Died)
-                 hashtable.remove(man.getId());
+        for (Integer id : idToDelelte) {
+            hashtable.remove(id);
         }
     }
     public ArrayList<IPersonToView> getCharactersData(){

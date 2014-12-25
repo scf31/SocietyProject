@@ -85,7 +85,7 @@ public class Run extends Decision {
             }
             else
             {
-                if ((Destination.x - person.getLocation().x) == 0)
+                if ((Opponent.getLocation().x - person.getLocation().x) == 0)
                 {
                     speedY = person.getHealth() > 35 ? person.getSpeed() * 0.15 : person.getSpeed() * 0.1;
                     speedX = 0;
@@ -118,8 +118,7 @@ public class Run extends Decision {
             {
                 person.setLocation(Opponent.getLocation());
                 person.setStatus(PersonState.Ready);
-                if (nextAction == ActionType.Attack)
-                {
+                if (nextAction == ActionType.Attack){
                     Opponent.setStatus(PersonState.Fighting);
                     person.setStatus(PersonState.Fighting);
                     Opponent.setOpponent(person);
@@ -132,8 +131,6 @@ public class Run extends Decision {
                     person.setOpponent(Opponent);
                 }
             }
-
-
         }
     }
 }

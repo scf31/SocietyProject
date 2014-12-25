@@ -189,6 +189,7 @@ public class StartRenderer {
         if (onPeasBtn){
             batch.draw(info,widthRatio - 120, heightRatio/ 2 - 20);
         }
+        engine.step();
     }
 
     public void moveOn(int x, int y){
