@@ -28,17 +28,26 @@ public class Habitat {
         CraftHouse = new Rectangle(300, 500, 100, 100);     //
         Castle = new Rectangle(wight - 324,0,324,285);       //
         for (int i = 0; i < 20; i++)
-            MarketPlace.add(i,new TraderPlace(new Rectangle(Castle.x+i*30,(int)(Castle.y+Castle.getSize().getHeight()+10),30,30)));
+            MarketPlace.add(i,new TraderPlace(new Point(Castle.x+i*30,(int)(Castle.y+Castle.getSize().getHeight()+10))));
     }
 
 
+    public Point findFreeTraderPlace(){
+        for(TraderPlace place: MarketPlace){
+            if (place.isEmpty)
+                return place.getLocation();
+        }
+        RandomContainer random = new RandomContainer();
+        return new Point(random.next(0,wight),random.next(0,height));
+    }
 
+    //TODO: может быть косяк с зацикливанием!
     public Point findTrader(){
         RandomContainer random = new RandomContainer();
         TraderPlace p = MarketPlace.get(random.next(0,8));
-        while (p.isEmpty)
+        if (p.isEmpty)
             p = MarketPlace.get(random.next(0, 8));
-        return new Point(p.place.x+p.place.getSize().width/2,p.place.y+p.place.getSize().height);
+        return p.getLocation();
     }
 
     public int getWight() {
@@ -59,13 +68,16 @@ public class Habitat {
 
     public class TraderPlace
     {
-        public Rectangle place;
+        private Point place;
         public boolean isEmpty;
 
-        public TraderPlace(Rectangle place)
+        public TraderPlace(Point place)
         {
             this.place = place;
             isEmpty = true;
+        }
+        public Point getLocation(){
+            return place;
         }
     }
 }

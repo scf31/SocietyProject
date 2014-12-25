@@ -59,7 +59,6 @@ public class CraftsmanStrategy implements IStrategy {
                             return Actions.buyingInstruments(settlement, personEnvir);
                         case Free:
                             return Actions.free();
-
                     }
                     return Actions.free();
                 }
