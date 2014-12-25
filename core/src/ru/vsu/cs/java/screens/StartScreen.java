@@ -23,14 +23,9 @@ public class StartScreen extends AbstractScreen {
     @Override
     public void show() {
         super.show();
-        Gdx.input.setInputProcessor(new InputAdapter() {
-            @Override
-            public boolean mouseMoved(int screenX, int screenY) {
-                screenY = Gdx.graphics.getHeight() - screenY;
-                renderer.moveOnWarrior(screenX,screenY);
-                return true;
-            }
-        });
+
+
+
     }
 
     @Override
@@ -46,14 +41,25 @@ public class StartScreen extends AbstractScreen {
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
+            public boolean mouseMoved(int screenX, int screenY) {
+                screenY = Gdx.graphics.getHeight() - screenY;
+                renderer.moveOn(screenX, screenY);
+                return true;
+            }
+
+            @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 switch (button) {
                     case Input.Buttons.LEFT:
-
+                        screenY = Gdx.graphics.getHeight() - screenY;
+                        renderer.mouseTap(screenX,screenY);
                         break;
                 }
                 return true;
             }
+
         });
+
+
     }
 }
