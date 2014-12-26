@@ -2,6 +2,7 @@ package ru.vsu.cs.java.model;
 
 import ru.vsu.cs.java.model.characters.Person;
 import ru.vsu.cs.java.model.characters.PersonState;
+import ru.vsu.cs.java.model.characters.Profession;
 import ru.vsu.cs.java.model.characters.decisions.Decision;
 import ru.vsu.cs.java.model.characters.IPersonToView;
 import ru.vsu.cs.java.model.enviroment.PersonalEnvironment;
@@ -21,20 +22,19 @@ public class Engine  {
         kingdom = new Kingdom(peopleCount,widthRatio,heightRatio);
     }
     public void step(){
-        Hashtable<Integer,Person> hashtable = kingdom.getCharacters();
-        ArrayList<Integer> idToDelelte = new ArrayList<Integer>();
-        for (Person man : hashtable.values()) {
+        ArrayList<Integer> toDelete= new ArrayList<Integer>();
+        for (Person man : kingdom.getCharacters().values()) {
             if (man.getStatus() != PersonState.Died && man.getHealth() > 0) {
                 Decision newDecision = man.getStrategy().takeDecision(man, new PersonalEnvironment(man, kingdom), kingdom.getHabitat());
                 man.setDecision(newDecision);
                 if (newDecision != null)
                     newDecision.apply(man);
-                if (man.getStatus()==PersonState.Died)
-                    idToDelelte.add(man.getId());
             }
+            if (man.getStatus()==PersonState.Died )
+                toDelete.add(man.getId());
         }
-        for (Integer id : idToDelelte) {
-            hashtable.remove(id);
+        for (int Id : toDelete){
+            kingdom.deleteCharacter(Id);
         }
     }
     public ArrayList<IPersonToView> getCharactersData(){
@@ -48,5 +48,26 @@ public class Engine  {
         result.put("crafthouse", kingdom.getHabitat().CraftHouse);
         return result;
     }
+    public void addCharacter(Profession prof){
+        switch (prof) {
+            case Trader:
+                kingdom.addTrader();
+                break;
+            case Craftsman:
+                kingdom.addCraftsman();
+                break;
+            case Robber:
+                kingdom.addRobber();
+                break;
+            case Peasant:
+                kingdom.addPeasant();
+                break;
+            case Profession:
+                break;
+            case Warrior:
+                kingdom.addWarrior();
+                break;
+        }
 
+    }
 }
