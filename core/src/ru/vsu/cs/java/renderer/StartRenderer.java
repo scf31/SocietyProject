@@ -8,9 +8,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ru.vsu.cs.java.model.Engine;
 import ru.vsu.cs.java.model.characters.IPersonToView;
+import ru.vsu.cs.java.model.characters.PersonState;
+import ru.vsu.cs.java.model.characters.Profession;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by max on 12.12.2014.
@@ -19,8 +22,8 @@ public class StartRenderer {
 
     private static final int CHARACTERS_BTN_HEIGTH      = 40;
     private static final int CHARACTERS_BTN_WIDTH       = 40;
-    private static final int CHARACTERS_HEIGTH          = 50;
-    private static final int CHARACTERS_WIDTH           = 50;
+    private static final int CHARACTERS_HEIGTH          = 70;
+    private static final int CHARACTERS_WIDTH           = 70;
     private static final int INFO_ON_BTNS_WIDTH         = 150;
     private static final int INFO_ON_BTNS_HEIGTH        = 100;
 
@@ -50,6 +53,7 @@ public class StartRenderer {
 
     private TextureRegion info;
     private TextureRegion charInfo;
+    private TextureRegion fight;
 
     private TextureRegion warrior_btn;
     private TextureRegion craftman_btn;
@@ -70,6 +74,8 @@ public class StartRenderer {
 
     private HashSet<Integer> showCharId;
 
+    private List<Integer> fightingPersonsId;
+
     public StartRenderer() {
 
         widthRatio  = Gdx.graphics.getWidth();
@@ -79,7 +85,7 @@ public class StartRenderer {
 
         backSprite = new TextureRegion(new Texture(Gdx.files.internal("gfx/grass.png")));
 
-        start = new TextureRegion(new Texture(Gdx.files.internal("gfx/start.jpg")));
+        start = new TextureRegion(new Texture(Gdx.files.internal("gfx/start1.png")));
         exit = new TextureRegion(new Texture(Gdx.files.internal("gfx/exit.jpg")));
 
         pause = new TextureRegion(new Texture(Gdx.files.internal("gfx/pause.jpg")));
@@ -100,6 +106,7 @@ public class StartRenderer {
 
         info = new TextureRegion(new Texture(Gdx.files.internal("gfx/info.png")));
         charInfo = new TextureRegion(new Texture(Gdx.files.internal("gfx/char_info.png")));
+        fight = new TextureRegion(new Texture(Gdx.files.internal("gfx/fighting.png")));
 
         warrior_btn = new TextureRegion(new Texture(Gdx.files.internal("gfx/warrior_btn.png")));
         craftman_btn = new TextureRegion(new Texture(Gdx.files.internal("gfx/craftman_btn.png")));
@@ -139,18 +146,24 @@ public class StartRenderer {
                 batch.draw(castle, (int) rect.getX(), (int) rect.getY(), (int) rect.getWidth() , (int)rect.getHeight());
             }
             if (name.equals("crafthouse")){
-                batch.draw(crafthouse, (int) rect.getX(), (int) rect.getY() + (int)rect.getHeight() , (int) rect.getWidth() , (int)rect.getHeight());
+                batch.draw(crafthouse, (int) rect.getX(), (int) rect.getY(), (int) rect.getWidth() , (int)rect.getHeight());
             }
             if (name.equals("forest")){
-                batch.draw(forest, (int) rect.getX(), (int) rect.getY() + (int)rect.getHeight() , (int) rect.getWidth() , (int)rect.getHeight());
+                batch.draw(forest, (int) rect.getX(), (int) rect.getY() , (int) rect.getWidth() , (int)rect.getHeight());
             }
             if (name.equals("farm")){
-                batch.draw(farm, (int) rect.getX(), (int) rect.getY() + (int)rect.getHeight() , (int) rect.getWidth() , (int)rect.getHeight());
+                batch.draw(farm, (int) rect.getX(), (int) rect.getY() , (int) rect.getWidth() , (int)rect.getHeight());
             }
 
         }
 
+        fightingPersonsId = new ArrayList<Integer>();
         for (IPersonToView person : characters){
+
+
+            if (person.getStatus().equals(PersonState.Fighting)){
+                batch.draw(fight,person.getLocation().x - CHARACTERS_WIDTH/2 + 13 , person.getLocation().y + CHARACTERS_HEIGTH/2 + 3 );
+            }
 
             if (showCharId != null && !showCharId.isEmpty() && !onWarriorBtn && !onPeasantBtn && !onCraftmanBtn && !onTraderBtn){
                 for (int id : showCharId){
@@ -165,7 +178,12 @@ public class StartRenderer {
 
             switch (person.getProfession()){
                 case Warrior:
-                    batch.draw(warrior, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
+                    if (!person.getStatus().equals(PersonState.Fighting)) {
+                        batch.draw(warrior, person.getLocation().x - CHARACTERS_WIDTH / 2, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
+                    } else {
+                        batch.draw(warrior, person.getLocation().x - CHARACTERS_WIDTH, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
+
+                    }
                     break;
                 case Craftsman:
                     batch.draw(craftman, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
@@ -337,7 +355,7 @@ public class StartRenderer {
                     (x <= widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2 + 131) &&
                     (y >= (heightRatio / 2 + 3 * CHARACTERS_BTN_HEIGTH / 2 + 20)) &&
                     (y <= (heightRatio / 2 + 3 * CHARACTERS_BTN_HEIGTH / 2 + 55))) {
-                //Создание Воина
+                engine.addCharacter(Profession.Warrior);
             }
         }
 
@@ -346,7 +364,7 @@ public class StartRenderer {
                     (x <= widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2 + 131) &&
                     (y >= (heightRatio / 2 + CHARACTERS_BTN_HEIGTH / 2 + 20)) &&
                     (y <= (heightRatio / 2 + CHARACTERS_BTN_HEIGTH / 2 + 55))) {
-                //Создание рабочего
+                engine.addCharacter(Profession.Craftsman);
             }
         }
 
@@ -355,7 +373,7 @@ public class StartRenderer {
                     (x <= widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2 + 131) &&
                     (y >= (heightRatio / 2 -CHARACTERS_BTN_HEIGTH/2 + 20)) &&
                     (y <= (heightRatio / 2 -CHARACTERS_BTN_HEIGTH/2 + 55))) {
-                //Создание крестьянина
+                engine.addCharacter(Profession.Peasant);
             }
         }
 
@@ -364,8 +382,36 @@ public class StartRenderer {
                     (x <= widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2 + 131) &&
                     (y >= (heightRatio / 2 - 3 * CHARACTERS_BTN_HEIGTH / 2 + 20)) &&
                     (y <= (heightRatio / 2 - 3 * CHARACTERS_BTN_HEIGTH / 2 + 55))) {
-                //Создание торговца
+                engine.addCharacter(Profession.Trader);
             }
+        }
+    }
+
+    private void drawFight (SpriteBatch batch, IPersonToView person){
+
+//        IPersonToView opponent = person.get
+        
+        switch (person.getProfession()){
+            case Warrior:
+                if (!person.getStatus().equals(PersonState.Fighting)) {
+                    batch.draw(warrior, person.getLocation().x - CHARACTERS_WIDTH / 2, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
+                } else {
+                    batch.draw(warrior, person.getLocation().x - CHARACTERS_WIDTH, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
+
+                }
+                break;
+            case Craftsman:
+                batch.draw(craftman, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
+                break;
+            case Peasant:
+                batch.draw(peasant, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
+                break;
+            case Robber:
+                batch.draw(robber, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
+                break;
+            case Trader:
+                batch.draw(trader, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
+                break;
         }
     }
 }
