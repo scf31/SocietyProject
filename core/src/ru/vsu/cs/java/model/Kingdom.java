@@ -13,14 +13,15 @@ public class Kingdom
 {
     private Habitat _settlement;
     private Hashtable<Integer, Person> _settlers = new Hashtable<Integer, Person>();
+    private int count;
 
     public Kingdom(int countOfSettlers, int drawAreaWidht, int drawAreaHeight)
     {
-
         _settlement = new Habitat(drawAreaWidht, drawAreaHeight);
         PersonFactory factory = new PersonFactory(_settlement);
         for (int i = 0; i <countOfSettlers; i++)
             _settlers.put(i,factory.getMan());
+        count = countOfSettlers;
     }
     public Kingdom (int drawAreaWidht, int drawAreaHeight){
         Person man;
@@ -52,6 +53,41 @@ public class Kingdom
     public Habitat getHabitat()
     {
         return _settlement;
+    }
+    public void addWarrior(){
+        WarriorDecorator decorator = new WarriorDecorator();
+        Person man = new Person(count-1);
+        decorator.takeProfession(man,_settlement);
+        _settlers.put(count-1,man);
+        count++;
+    }
+    public void addPeasant(){
+        PeasantDecorator decorator = new PeasantDecorator();
+        Person man = new Person(count-1);
+        decorator.takeProfession(man,_settlement);
+        _settlers.put(count-1,man);
+        count++;
+    }
+    public void addCraftsman(){
+        CraftsmanDecorator decorator = new CraftsmanDecorator();
+        Person man = new Person(count-1);
+        decorator.takeProfession(man,_settlement);
+        _settlers.put(count-1,man);
+        count++;
+    }
+    public void addTrader(){
+        TraderDecorator decorator = new TraderDecorator();
+        Person man = new Person(count-1);
+        decorator.takeProfession(man,_settlement);
+        _settlers.put(count-1,man);
+        count++;
+    }
+    public void addRobber(){
+        RobberDecorator decorator = new RobberDecorator();
+        Person man = new Person(count-1);
+        decorator.takeProfession(man,_settlement);
+        _settlers.put(count-1,man);
+        count++;
     }
 }
 
