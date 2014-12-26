@@ -20,7 +20,7 @@ public class MoveToPoint extends Decision {
             double speedX = person.getSpeed()*0.05*Math.cos(alpha);
             double speedY = person.getSpeed()*0.05*Math.sin(alpha);
             if (Math.sqrt(Math.pow((person.getLocation().x - destination.x), 2) +
-                    Math.pow((person.getLocation().y - destination.y), 2)) >
+                    Math.pow((person.getLocation().y + destination.y), 2)) >
                     Math.sqrt(Math.pow((speedX), 2) + Math.pow((speedY), 2)))
             {
                 if (person.getLocation().x < destination.x)

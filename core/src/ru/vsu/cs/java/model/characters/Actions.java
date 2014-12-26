@@ -105,19 +105,19 @@ public class Actions {
         return decision;
     }
 
-    public static MoveToPoint goingToTrader(Habitat settlement,PersonalEnvironment pEnvir)
+    public static MoveToTrader goingToTrader(Habitat settlement,PersonalEnvironment pEnvir)
     {
-        MoveToPoint decision = new MoveToPoint();
-        decision.destination = settlement.findTrader();
+        MoveToTrader decision = new MoveToTrader();
+        decision.Opponent = settlement.findTrader();
         decision.nextAction = ActionType.Sell;
         decision.newState = PersonState.Moving;
         return decision;
     }
 
-    public static MoveToPoint goingForInstruments(Habitat settlement, PersonalEnvironment pEnvir)
+    public static MoveToTrader goingForInstruments(Habitat settlement, PersonalEnvironment pEnvir)
     {
-        MoveToPoint decision = new MoveToPoint();
-        decision.destination = settlement.findTrader();
+        MoveToTrader decision = new MoveToTrader();
+        decision.Opponent = settlement.findTrader();
         decision.nextAction = ActionType.BuyInstruments;
         decision.newState = PersonState.Moving;
         return decision;

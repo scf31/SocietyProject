@@ -66,7 +66,7 @@ public class SafeStrategy implements IStrategy {
                 return decision;
             }
         }
-        if (person.getLocation() == settlement.findTrader())
+        if (person.getLocation() == settlement.findTrader().getLocation())
         {
             BuyingMedicine decision = new BuyingMedicine();
             decision.newState = PersonState.Ready;
@@ -89,7 +89,7 @@ public class SafeStrategy implements IStrategy {
                 return run;
             }
         }
-        run.Destination = settlement.findTrader();
+        run.Destination = settlement.findTrader().getLocation();
         return run;
     }
 

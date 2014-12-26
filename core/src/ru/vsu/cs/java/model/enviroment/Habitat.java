@@ -1,6 +1,7 @@
 package ru.vsu.cs.java.model.enviroment;
 
 import ru.vsu.cs.java.model.RandomContainer;
+import ru.vsu.cs.java.model.characters.Person;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -40,14 +41,23 @@ public class Habitat {
         RandomContainer random = new RandomContainer();
         return new Point(random.next(0,wight),random.next(0,height));
     }
+    public void takeTraderPlace(Point location,Person trader){
+        for (TraderPlace tp : MarketPlace){
+            if (tp.getLocation() == location){
+                tp.isEmpty=false;
+                tp.trader=trader;
+            }
+        }
+    }
 
     //TODO: может быть косяк с зацикливанием!
-    public Point findTrader(){
+    public Person findTrader(){
         RandomContainer random = new RandomContainer();
-        TraderPlace p = MarketPlace.get(random.next(0,8));
-        if (p.isEmpty)
-            p = MarketPlace.get(random.next(0, 8));
-        return p.getLocation();
+        for (TraderPlace tp : MarketPlace){
+            if (!tp.isEmpty)
+                return tp.getTrader();
+        }
+        return null;
     }
 
     public int getWight() {
@@ -70,14 +80,19 @@ public class Habitat {
     {
         private Point place;
         public boolean isEmpty;
+        private Person trader;
 
         public TraderPlace(Point place)
         {
             this.place = place;
             isEmpty = true;
+            trader=null;
         }
         public Point getLocation(){
             return place;
+        }
+        public Person getTrader(){
+            return trader;
         }
     }
 }

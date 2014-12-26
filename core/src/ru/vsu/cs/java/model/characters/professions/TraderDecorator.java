@@ -16,6 +16,7 @@ public class TraderDecorator implements IProfessionDecorator {
     {
         person.setEqip(Equipment.StandartEquipment.Weapons.Hands, Equipment.StandartEquipment.Armors.NoneArmor, 100);
         person.setLocation(settlement.findFreeTraderPlace());
+        settlement.takeTraderPlace(person.getLocation(),person);
         person.changeStrategy(new TraderStrategy());
         person.setReview(100);
         person.setSpeed(70);
