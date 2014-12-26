@@ -34,7 +34,7 @@ public class Attack extends Decision {
             }
             else
             {
-                opponent.changeHp(-(person.getEquipment().getDamage() * person.getLvlBonus() -
+                opponent.changeHp(-Math.abs(person.getEquipment().getDamage() * person.getLvlBonus() -
                         opponent.getEquipment().getStandUp() * opponent.getLvlBonus()));
                 person.getEquipment().weaponUsed();
                 opponent.getEquipment().armorUsed();

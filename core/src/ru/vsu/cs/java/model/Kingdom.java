@@ -89,6 +89,9 @@ public class Kingdom
         _settlers.put(count-1,man);
         count++;
     }
+    public void deleteCharacter(int id){
+        _settlers.remove(id);
+    }
 }
 
 

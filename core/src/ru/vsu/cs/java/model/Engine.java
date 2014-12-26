@@ -22,21 +22,19 @@ public class Engine  {
         kingdom = new Kingdom(peopleCount,widthRatio,heightRatio);
     }
     public void step(){
-        Hashtable<Integer,Person> hashtable = kingdom.getCharacters();
-        ArrayList<Integer> idToDelelte = new ArrayList<Integer>();
-        for (Person man : hashtable.values()) {
+        ArrayList<Integer> toDelete= new ArrayList<Integer>();
+        for (Person man : kingdom.getCharacters().values()) {
             if (man.getStatus() != PersonState.Died && man.getHealth() > 0) {
                 Decision newDecision = man.getStrategy().takeDecision(man, new PersonalEnvironment(man, kingdom), kingdom.getHabitat());
                 man.setDecision(newDecision);
-                if (newDecision != null) {
+                if (newDecision != null)
                     newDecision.apply(man);
-                    if (man.getStatus()==PersonState.Died)
-                        idToDelelte.add(man.getId());
-                }
             }
+            if (man.getStatus()==PersonState.Died )
+                toDelete.add(man.getId());
         }
-        for (Integer id : idToDelelte) {
-            hashtable.remove(id);
+        for (int Id : toDelete){
+            kingdom.deleteCharacter(Id);
         }
     }
     public ArrayList<IPersonToView> getCharactersData(){
