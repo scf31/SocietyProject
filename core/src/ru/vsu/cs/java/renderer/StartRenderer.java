@@ -86,7 +86,7 @@ public class StartRenderer {
         backSprite = new TextureRegion(new Texture(Gdx.files.internal("gfx/grass.png")));
 
         start = new TextureRegion(new Texture(Gdx.files.internal("gfx/start1.png")));
-        exit = new TextureRegion(new Texture(Gdx.files.internal("gfx/exit.jpg")));
+        exit = new TextureRegion(new Texture(Gdx.files.internal("gfx/exit1.png")));
 
         pause = new TextureRegion(new Texture(Gdx.files.internal("gfx/pause.jpg")));
         play = new TextureRegion(new Texture(Gdx.files.internal("gfx/play.jpg")));
@@ -121,6 +121,7 @@ public class StartRenderer {
         //Пример создания движка. 30 - кол-во поселенцев (можно любое число)
         engine = new Engine(30,(int)widthRatio,(int)heightRatio);
 
+        fightingPersonsId = new ArrayList<Integer>();
 
     }
 
@@ -157,53 +158,122 @@ public class StartRenderer {
 
         }
 
-        fightingPersonsId = new ArrayList<Integer>();
+        fightingPersonsId.clear();
         for (IPersonToView person : characters){
 
 
-            if (person.getStatus().equals(PersonState.Fighting)){
-                batch.draw(fight,person.getLocation().x - CHARACTERS_WIDTH/2 + 13 , person.getLocation().y + CHARACTERS_HEIGTH/2 + 3 );
-            }
+            if (!fightingPersonsId.contains(person.getId())) {
 
-            if (showCharId != null && !showCharId.isEmpty() && !onWarriorBtn && !onPeasantBtn && !onCraftmanBtn && !onTraderBtn){
-                for (int id : showCharId){
-                    if (person.getId() == id){
-                        batch.draw(charInfo,person.getLocation().x - CHARACTERS_WIDTH/2 , person.getLocation().y + CHARACTERS_HEIGTH/2 + 3, 80, 60);
-                        font.draw(batch, "" + person.getLevel(), person.getLocation().x - CHARACTERS_WIDTH/2 + 35, person.getLocation().y + CHARACTERS_HEIGTH/2 + 56);
-                        font.draw(batch, "     " + person.getHealth(), person.getLocation().x - CHARACTERS_WIDTH/2 + 8, person.getLocation().y + CHARACTERS_HEIGTH/2 + 26);
-                        font.draw(batch, "       " + person.getEquipment().getDamage() , person.getLocation().x - CHARACTERS_WIDTH/2 + 8, person.getLocation().y + CHARACTERS_HEIGTH/2 + 41);
+
+                if (!person.getStatus().equals(PersonState.Fighting)) {
+                    if (showCharId != null && !showCharId.isEmpty() && !onWarriorBtn && !onPeasantBtn && !onCraftmanBtn && !onTraderBtn) {
+                        for (int id : showCharId) {
+                            if (person.getId() == id) {
+                                batch.draw(charInfo, person.getLocation().x - CHARACTERS_WIDTH / 2, person.getLocation().y + CHARACTERS_HEIGTH / 2 + 3, 80, 60);
+                                font.draw(batch, "" + person.getLevel(), person.getLocation().x - CHARACTERS_WIDTH / 2 + 35, person.getLocation().y + CHARACTERS_HEIGTH / 2 + 56);
+                                font.draw(batch, "     " + person.getHealth(), person.getLocation().x - CHARACTERS_WIDTH / 2 + 8, person.getLocation().y + CHARACTERS_HEIGTH / 2 + 26);
+                                font.draw(batch, "       " + person.getEquipment().getDamage(), person.getLocation().x - CHARACTERS_WIDTH / 2 + 8, person.getLocation().y + CHARACTERS_HEIGTH / 2 + 41);
+                            }
+                        }
+                    }
+                } else {
+                    if (showCharId != null && !showCharId.isEmpty() && !onWarriorBtn && !onPeasantBtn && !onCraftmanBtn && !onTraderBtn) {
+                        for (int id : showCharId) {
+                            if (person.getId() == id) {
+                                batch.draw(charInfo, person.getLocation().x - CHARACTERS_WIDTH / 2 - 15, person.getLocation().y + CHARACTERS_HEIGTH / 2 + 3, 80, 60);
+                                font.draw(batch, "" + person.getLevel(), person.getLocation().x - CHARACTERS_WIDTH / 2 + 20, person.getLocation().y + CHARACTERS_HEIGTH / 2 + 56);
+                                font.draw(batch, "     " + person.getHealth(), person.getLocation().x - CHARACTERS_WIDTH / 2 - 7, person.getLocation().y + CHARACTERS_HEIGTH / 2 + 26);
+                                font.draw(batch, "       " + person.getEquipment().getDamage(), person.getLocation().x - CHARACTERS_WIDTH / 2 - 7, person.getLocation().y + CHARACTERS_HEIGTH / 2 + 41);
+                            }
+                        }
                     }
                 }
-            }
 
-            switch (person.getProfession()){
-                case Warrior:
-                    if (!person.getStatus().equals(PersonState.Fighting)) {
-                        batch.draw(warrior, person.getLocation().x - CHARACTERS_WIDTH / 2, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
-                    } else {
-                        batch.draw(warrior, person.getLocation().x - CHARACTERS_WIDTH, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
+                switch (person.getProfession()) {
+                    case Warrior:
+                        if (!person.getStatus().equals(PersonState.Fighting)) {
+                            batch.draw(warrior, person.getLocation().x - CHARACTERS_WIDTH / 2, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
+                        } else {
+                            batch.draw(warrior, person.getLocation().x - CHARACTERS_WIDTH / 2 - 15, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
+                            drawFight(batch, person.getOpponent());
 
+                            batch.draw(fight, person.getLocation().x, person.getLocation().y);
+
+                            fightingPersonsId.add(person.getOpponent().getId());
+
+                        }
+                        break;
+                    case Craftsman:
+                        if (!person.getStatus().equals(PersonState.Fighting)) {
+                            batch.draw(craftman, person.getLocation().x - CHARACTERS_WIDTH / 2, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
+                        } else {
+                            batch.draw(craftman, person.getLocation().x - CHARACTERS_WIDTH / 2 - 15, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
+                            drawFight(batch, person.getOpponent());
+
+                            batch.draw(fight, person.getLocation().x, person.getLocation().y);
+
+                            fightingPersonsId.add(person.getOpponent().getId());
+
+                        }
+                        break;
+                    case Peasant:
+                        if (!person.getStatus().equals(PersonState.Fighting)) {
+                            batch.draw(peasant, person.getLocation().x - CHARACTERS_WIDTH / 2, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
+                        } else {
+                            batch.draw(peasant, person.getLocation().x - CHARACTERS_WIDTH / 2 - 15, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
+                            drawFight(batch, person.getOpponent());
+
+                            batch.draw(fight, person.getLocation().x, person.getLocation().y);
+
+                            fightingPersonsId.add(person.getOpponent().getId());
+
+                        }
+                        break;
+                    case Robber:
+                        if (!person.getStatus().equals(PersonState.Fighting)) {
+                            batch.draw(robber, person.getLocation().x - CHARACTERS_WIDTH / 2, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
+                        } else {
+                            batch.draw(robber, person.getLocation().x - CHARACTERS_WIDTH / 2 - 15, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
+                            drawFight(batch, person.getOpponent());
+
+                            batch.draw(fight, person.getLocation().x, person.getLocation().y);
+
+                            fightingPersonsId.add(person.getOpponent().getId());
+
+                        }
+                        break;
+                    case Trader:
+                        if (!person.getStatus().equals(PersonState.Fighting)) {
+                            batch.draw(trader, person.getLocation().x - CHARACTERS_WIDTH / 2, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
+                        } else {
+                            batch.draw(trader, person.getLocation().x - CHARACTERS_WIDTH / 2 - 15, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
+                            drawFight(batch, person.getOpponent());
+
+                            batch.draw(fight, person.getLocation().x, person.getLocation().y);
+
+                            fightingPersonsId.add(person.getOpponent().getId());
+
+                        }
+                        break;
+                }
+            } else {
+                if (showCharId != null && !showCharId.isEmpty() && !onWarriorBtn && !onPeasantBtn && !onCraftmanBtn && !onTraderBtn) {
+                    for (int id : showCharId) {
+                        if (person.getId() == id) {
+                            batch.draw(charInfo, person.getLocation().x - CHARACTERS_WIDTH / 2 +15, person.getLocation().y + CHARACTERS_HEIGTH / 2 + 3, 80, 60);
+                            font.draw(batch, "" + person.getLevel(), person.getLocation().x - CHARACTERS_WIDTH / 2 + 50, person.getLocation().y + CHARACTERS_HEIGTH / 2 + 56);
+                            font.draw(batch, "     " + person.getHealth(), person.getLocation().x - CHARACTERS_WIDTH / 2 + 23, person.getLocation().y + CHARACTERS_HEIGTH / 2 + 26);
+                            font.draw(batch, "       " + person.getEquipment().getDamage(), person.getLocation().x - CHARACTERS_WIDTH / 2 + 23, person.getLocation().y + CHARACTERS_HEIGTH / 2 + 41);
+                        }
                     }
-                    break;
-                case Craftsman:
-                    batch.draw(craftman, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
-                    break;
-                case Peasant:
-                    batch.draw(peasant, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
-                    break;
-                case Robber:
-                    batch.draw(robber, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
-                    break;
-                case Trader:
-                    batch.draw(trader, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
-                    break;
+                }
             }
         }
 
 
 
         batch.draw(start, 0, heightRatio - 40, 60,40);
-        batch.draw(exit, widthRatio - 40, heightRatio - 40, 40,40);
+        batch.draw(exit, widthRatio - 46, heightRatio - 40);
 
 
 //        batch.draw(pause, widthRatio/2 - 60, 0 , 30,30);
@@ -346,7 +416,7 @@ public class StartRenderer {
     }
 
     public void mouseTap(int x, int y){
-        if (x >= (widthRatio - 40) && (x <= widthRatio) && (y <= (heightRatio)) && (y >= (heightRatio - 40))){
+        if (x >= (widthRatio - 46) && (x <= widthRatio) && (y <= (heightRatio)) && (y >= (heightRatio - 40))){
             Gdx.app.exit();
         }
 
@@ -388,29 +458,22 @@ public class StartRenderer {
     }
 
     private void drawFight (SpriteBatch batch, IPersonToView person){
-
-//        IPersonToView opponent = person.get
         
         switch (person.getProfession()){
             case Warrior:
-                if (!person.getStatus().equals(PersonState.Fighting)) {
-                    batch.draw(warrior, person.getLocation().x - CHARACTERS_WIDTH / 2, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
-                } else {
-                    batch.draw(warrior, person.getLocation().x - CHARACTERS_WIDTH, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
-
-                }
+                    batch.draw(warrior, person.getLocation().x + 15, person.getLocation().y - CHARACTERS_HEIGTH / 2, CHARACTERS_WIDTH, CHARACTERS_HEIGTH);
                 break;
             case Craftsman:
-                batch.draw(craftman, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
+                batch.draw(craftman, person.getLocation().x + 15, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
                 break;
             case Peasant:
-                batch.draw(peasant, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
+                batch.draw(peasant, person.getLocation().x + 15, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
                 break;
             case Robber:
-                batch.draw(robber, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
+                batch.draw(robber, person.getLocation().x + 15, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
                 break;
             case Trader:
-                batch.draw(trader, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
+                batch.draw(trader, person.getLocation().x + 15, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
                 break;
         }
     }
