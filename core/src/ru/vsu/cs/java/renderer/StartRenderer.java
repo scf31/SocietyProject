@@ -17,10 +17,12 @@ import java.util.*;
  */
 public class StartRenderer {
 
-    private static final int CHARACTERS_HEIGTH = 50;
-    private static final int CHARACTERS_WIDTH = 50;
-    private static final int CASTLE_HEIGTH = 300;
-    private static final int CASTLE_WIDTH = 150;
+    private static final int CHARACTERS_BTN_HEIGTH      = 40;
+    private static final int CHARACTERS_BTN_WIDTH       = 40;
+    private static final int CHARACTERS_HEIGTH          = 50;
+    private static final int CHARACTERS_WIDTH           = 50;
+    private static final int INFO_ON_BTNS_WIDTH         = 150;
+    private static final int INFO_ON_BTNS_HEIGTH        = 100;
 
     private float widthRatio;
     private float heightRatio;
@@ -37,10 +39,14 @@ public class StartRenderer {
 
     private TextureRegion castle;
     private TextureRegion crafthouse;
+    private TextureRegion forest;
+    private TextureRegion farm;
 
     private TextureRegion warrior;
     private TextureRegion craftman;
     private TextureRegion peasant;
+    private TextureRegion robber;
+    private TextureRegion trader;
 
     private TextureRegion info;
     private TextureRegion charInfo;
@@ -48,13 +54,16 @@ public class StartRenderer {
     private TextureRegion warrior_btn;
     private TextureRegion craftman_btn;
     private TextureRegion peasant_btn;
+    private TextureRegion trader_btn;
 
 
     private BitmapFont font;
     private Engine engine;
-    private boolean onWarBtn = false;
-    private boolean onCraftBtn = false;
-    private boolean onPeasBtn = false;
+
+    private boolean onWarriorBtn = false;
+    private boolean onCraftmanBtn = false;
+    private boolean onPeasantBtn = false;
+    private boolean onTraderBtn = false;
 
     private ArrayList<IPersonToView> characters;
     private Hashtable<String,Rectangle> map;
@@ -80,17 +89,22 @@ public class StartRenderer {
 
         castle = new TextureRegion(new Texture(Gdx.files.internal("gfx/castle.png")));
         crafthouse = new TextureRegion(new Texture(Gdx.files.internal("gfx/crafthouse.png")));
+        forest = new TextureRegion(new Texture(Gdx.files.internal("gfx/forest.png")));
+        farm = new TextureRegion(new Texture(Gdx.files.internal("gfx/farm.png")));
 
         warrior = new TextureRegion(new Texture(Gdx.files.internal("gfx/warrior.png")));
         craftman = new TextureRegion(new Texture(Gdx.files.internal("gfx/craftman.png")));
         peasant = new TextureRegion(new Texture(Gdx.files.internal("gfx/peasant.png")));
+        robber = new TextureRegion(new Texture(Gdx.files.internal("gfx/robber.png")));
+        trader = new TextureRegion(new Texture(Gdx.files.internal("gfx/trader.png")));
 
         info = new TextureRegion(new Texture(Gdx.files.internal("gfx/info.png")));
-        charInfo = new TextureRegion(new Texture(Gdx.files.internal("gfx/charInfo.png")));
+        charInfo = new TextureRegion(new Texture(Gdx.files.internal("gfx/char_info.png")));
 
         warrior_btn = new TextureRegion(new Texture(Gdx.files.internal("gfx/warrior_btn.png")));
         craftman_btn = new TextureRegion(new Texture(Gdx.files.internal("gfx/craftman_btn.png")));
         peasant_btn = new TextureRegion(new Texture(Gdx.files.internal("gfx/peasant_btn.png")));
+        trader_btn = new TextureRegion(new Texture(Gdx.files.internal("gfx/trader_btn.png")));
 
 
         font = new BitmapFont() {{
@@ -106,12 +120,12 @@ public class StartRenderer {
     public void render(SpriteBatch batch) {
 //        batch.draw(background,0,0);
 
-        int w = (int) widthRatio / 40;
-        int h = (int) heightRatio / 40;
+        int w = (int) widthRatio / 50;
+        int h = (int) heightRatio / 50;
 
         for (int i = 0; i <= w; i ++){
             for (int j = 0; j <= h; j++){
-                batch.draw(backSprite, i * 40, j * 40 );
+                batch.draw(backSprite, i * 50, j * 50 );
             }
         }
         characters = engine.getCharactersData();
@@ -127,16 +141,24 @@ public class StartRenderer {
             if (name.equals("crafthouse")){
                 batch.draw(crafthouse, (int) rect.getX(), (int) rect.getY() + (int)rect.getHeight() , (int) rect.getWidth() , (int)rect.getHeight());
             }
+            if (name.equals("forest")){
+                batch.draw(forest, (int) rect.getX(), (int) rect.getY() + (int)rect.getHeight() , (int) rect.getWidth() , (int)rect.getHeight());
+            }
+            if (name.equals("farm")){
+                batch.draw(farm, (int) rect.getX(), (int) rect.getY() + (int)rect.getHeight() , (int) rect.getWidth() , (int)rect.getHeight());
+            }
+
         }
 
         for (IPersonToView person : characters){
 
-            if (showCharId != null && !showCharId.isEmpty() && !onWarBtn && !onPeasBtn && !onCraftBtn){
+            if (showCharId != null && !showCharId.isEmpty() && !onWarriorBtn && !onPeasantBtn && !onCraftmanBtn && !onTraderBtn){
                 for (int id : showCharId){
                     if (person.getId() == id){
-                        batch.draw(charInfo,person.getLocation().x - CHARACTERS_WIDTH/2 , person.getLocation().y + CHARACTERS_HEIGTH/2 + 3, 50, 50);
-                        font.draw(batch, "HP: " + person.getHealth(), person.getLocation().x - CHARACTERS_WIDTH/2 + 2, person.getLocation().y + CHARACTERS_HEIGTH/2 + 20);
-                        font.draw(batch, "LvL: " + person.getLevel() , person.getLocation().x - CHARACTERS_WIDTH/2 + 2, person.getLocation().y + CHARACTERS_HEIGTH/2 + 35);
+                        batch.draw(charInfo,person.getLocation().x - CHARACTERS_WIDTH/2 , person.getLocation().y + CHARACTERS_HEIGTH/2 + 3, 80, 60);
+                        font.draw(batch, "" + person.getLevel(), person.getLocation().x - CHARACTERS_WIDTH/2 + 35, person.getLocation().y + CHARACTERS_HEIGTH/2 + 56);
+                        font.draw(batch, "     " + person.getHealth(), person.getLocation().x - CHARACTERS_WIDTH/2 + 8, person.getLocation().y + CHARACTERS_HEIGTH/2 + 26);
+                        font.draw(batch, "       " + person.getEquipment().getDamage() , person.getLocation().x - CHARACTERS_WIDTH/2 + 8, person.getLocation().y + CHARACTERS_HEIGTH/2 + 41);
                     }
                 }
             }
@@ -152,10 +174,10 @@ public class StartRenderer {
                     batch.draw(peasant, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
                     break;
                 case Robber:
-                    batch.draw(warrior_btn, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
+                    batch.draw(robber, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
                     break;
                 case Trader:
-                    batch.draw(craftman_btn, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
+                    batch.draw(trader, person.getLocation().x - CHARACTERS_WIDTH/2, person.getLocation().y - CHARACTERS_HEIGTH/2, CHARACTERS_WIDTH,CHARACTERS_HEIGTH);
                     break;
             }
         }
@@ -166,24 +188,28 @@ public class StartRenderer {
         batch.draw(exit, widthRatio - 40, heightRatio - 40, 40,40);
 
 
-        batch.draw(pause, widthRatio/2 - 60, 0 , 30,30);
-        batch.draw(play,  widthRatio/2 - 30, 0 , 30,30);
-        batch.draw(stop,  widthRatio/2, 0 , 30,30);
-        batch.draw(doublespeed, widthRatio/2 + 30, 0 , 30,30);
+//        batch.draw(pause, widthRatio/2 - 60, 0 , 30,30);
+//        batch.draw(play,  widthRatio/2 - 30, 0 , 30,30);
+//        batch.draw(stop,  widthRatio/2, 0 , 30,30);
+//        batch.draw(doublespeed, widthRatio/2 + 30, 0 , 30,30);
 
 
-        batch.draw(warrior_btn, widthRatio - 40, heightRatio / 2 + 40, 40,40);
-        batch.draw(craftman_btn, widthRatio - 40, heightRatio / 2 , 40,40);
-        batch.draw(peasant_btn, widthRatio - 40, heightRatio / 2 - 40, 40,40);
+        batch.draw(warrior_btn, widthRatio - CHARACTERS_BTN_WIDTH, heightRatio / 2 + CHARACTERS_BTN_HEIGTH, CHARACTERS_BTN_WIDTH,CHARACTERS_BTN_HEIGTH);
+        batch.draw(craftman_btn, widthRatio - CHARACTERS_BTN_WIDTH, heightRatio / 2 , CHARACTERS_BTN_WIDTH,CHARACTERS_BTN_HEIGTH);
+        batch.draw(peasant_btn, widthRatio - CHARACTERS_BTN_WIDTH, heightRatio / 2 - CHARACTERS_BTN_HEIGTH, CHARACTERS_BTN_WIDTH,CHARACTERS_BTN_HEIGTH);
+        batch.draw(trader_btn, widthRatio - CHARACTERS_BTN_WIDTH, heightRatio / 2 - 2 * CHARACTERS_BTN_HEIGTH, CHARACTERS_BTN_WIDTH,CHARACTERS_BTN_HEIGTH);
 
-        if (onWarBtn){
-            batch.draw(info,widthRatio - 120, heightRatio/ 2 + 60);
+        if (onWarriorBtn){
+            batch.draw(info,widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2, heightRatio/ 2 + 3 * CHARACTERS_BTN_HEIGTH / 2);
         }
-        if (onCraftBtn){
-            batch.draw(info,widthRatio - 120, heightRatio/ 2 + 20);
+        if (onCraftmanBtn){
+            batch.draw(info,widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2, heightRatio/ 2 + CHARACTERS_BTN_HEIGTH/2);
         }
-        if (onPeasBtn){
-            batch.draw(info,widthRatio - 120, heightRatio/ 2 - 20);
+        if (onPeasantBtn){
+            batch.draw(info,widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2, heightRatio/ 2 - CHARACTERS_BTN_HEIGTH/2);
+        }
+        if (onTraderBtn){
+            batch.draw(info,widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2, heightRatio/ 2 - 3 * CHARACTERS_BTN_HEIGTH / 2);
         }
         engine.step();
         try {
@@ -196,58 +222,102 @@ public class StartRenderer {
     public void moveOn(int x, int y){
 
         // For War
-        if (!onCraftBtn && ! onPeasBtn) {
-            if ((x >= (widthRatio - 40)) && (x <= widthRatio) && (y <= (heightRatio / 2 + 80)) && (y >= (heightRatio / 2 + 40))) {
-                onWarBtn = true;
+        if (!onCraftmanBtn && !onPeasantBtn && !onTraderBtn) {
+            if ((x >= (widthRatio - CHARACTERS_BTN_WIDTH)) &&
+                    (x <= widthRatio) &&
+                    (y <= (heightRatio / 2 + 2 * CHARACTERS_BTN_HEIGTH)) &&
+                    (y >= (heightRatio / 2 + CHARACTERS_BTN_HEIGTH))) {
+                onWarriorBtn = true;
             } else {
-                if (onWarBtn) {
-                    if ((x >= (widthRatio - 120)) && (x <= widthRatio - 20) && (y >= (heightRatio / 2 + 60)) && (y <= (heightRatio / 2 + 120))) {
-                        onWarBtn = true;
+                if (onWarriorBtn) {
+                    if ((x >= (widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2)) &&
+                            (x <= widthRatio - CHARACTERS_BTN_WIDTH / 2) &&
+                            (y >= (heightRatio / 2 + 3 * CHARACTERS_BTN_HEIGTH / 2)) &&
+                            (y <= (heightRatio / 2 + 3 * CHARACTERS_BTN_HEIGTH / 2 + INFO_ON_BTNS_HEIGTH))) {
+                        onWarriorBtn = true;
                     } else {
-                        onWarBtn = false;
+                        onWarriorBtn = false;
                     }
                 } else {
-                    onWarBtn = false;
+                    onWarriorBtn = false;
                 }
             }
         }
 
         // For Craft
-        if(!onWarBtn && !onPeasBtn) {
-            if ((x >= (widthRatio - 40)) && (x <= widthRatio) && (y <= (heightRatio / 2 + 40)) && (y >= (heightRatio / 2))) {
-                onCraftBtn = true;
+        if(!onWarriorBtn && !onPeasantBtn && !onTraderBtn) {
+            if ((x >= (widthRatio - CHARACTERS_BTN_WIDTH)) &&
+                    (x <= widthRatio) &&
+                    (y <= (heightRatio / 2 + CHARACTERS_BTN_HEIGTH)) &&
+                    (y >= (heightRatio / 2))) {
+                onCraftmanBtn = true;
             } else {
-                if (onCraftBtn) {
-                    if ((x >= (widthRatio - 120)) && (x <= widthRatio - 20) && (y >= (heightRatio / 2 + 20)) && (y <= (heightRatio / 2 + 80))) {
-                        onCraftBtn = true;
+                if (onCraftmanBtn) {
+                    if ((x >= (widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2)) &&
+                            (x <= widthRatio - CHARACTERS_BTN_WIDTH / 2) &&
+                            (y >= (heightRatio / 2 + CHARACTERS_BTN_HEIGTH/2)) &&
+                            (y <= (heightRatio / 2 + CHARACTERS_BTN_HEIGTH / 2 + INFO_ON_BTNS_HEIGTH))) {
+                        onCraftmanBtn = true;
                     } else {
-                        onCraftBtn = false;
+                        onCraftmanBtn = false;
                     }
                 } else {
-                    onCraftBtn = false;
+                    onCraftmanBtn = false;
                 }
             }
         }
 
         // For Peas
-        if (!onWarBtn && !onCraftBtn) {
-            if ((x >= (widthRatio - 40)) && (x <= widthRatio) && (y <= (heightRatio / 2)) && (y >= (heightRatio / 2 - 40))) {
-                onPeasBtn = true;
+        if (!onWarriorBtn && !onCraftmanBtn && !onTraderBtn) {
+            if ((x >= (widthRatio - CHARACTERS_BTN_WIDTH)) &&
+                    (x <= widthRatio) &&
+                    (y <= (heightRatio / 2)) &&
+                    (y >= (heightRatio / 2 - CHARACTERS_BTN_HEIGTH))) {
+                onPeasantBtn = true;
             } else {
-                if (onPeasBtn) {
-                    if ((x >= (widthRatio - 120)) && (x <= widthRatio - 20) && (y >= (heightRatio / 2 -20)) && (y <= (heightRatio / 2 + 40))) {
-                        onPeasBtn = true;
+                if (onPeasantBtn) {
+                    if ((x >= (widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2)) &&
+                            (x <= widthRatio - CHARACTERS_BTN_WIDTH/2) &&
+                            (y >= (heightRatio / 2 -CHARACTERS_BTN_HEIGTH/2)) &&
+                            (y <= (heightRatio / 2 - CHARACTERS_BTN_HEIGTH / 2 + INFO_ON_BTNS_HEIGTH))) {
+                        onPeasantBtn = true;
                     } else {
-                        onPeasBtn = false;
+                        onPeasantBtn = false;
                     }
                 } else {
-                    onPeasBtn = false;
+                    onPeasantBtn = false;
+                }
+            }
+        }
+
+        // For Trader
+        if (!onWarriorBtn && !onCraftmanBtn && !onPeasantBtn) {
+            if ((x >= (widthRatio - CHARACTERS_BTN_WIDTH)) &&
+                    (x <= widthRatio) &&
+                    (y <= (heightRatio / 2 - CHARACTERS_BTN_HEIGTH)) &&
+                    (y >= (heightRatio / 2 - 2 * CHARACTERS_BTN_HEIGTH))) {
+                onTraderBtn = true;
+            } else {
+                if (onTraderBtn) {
+                    if ((x >= (widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2)) &&
+                            (x <= widthRatio - CHARACTERS_BTN_WIDTH/2) &&
+                            (y >= (heightRatio / 2 - 3 * CHARACTERS_BTN_HEIGTH / 2)) &&
+                            (y <= (heightRatio / 2 - 3 * CHARACTERS_BTN_HEIGTH / 2 + INFO_ON_BTNS_HEIGTH))) {
+                        onTraderBtn = true;
+                    } else {
+                        onTraderBtn = false;
+                    }
+                } else {
+                    onTraderBtn = false;
                 }
             }
         }
 
         for (IPersonToView person : characters){
-            if (x >= (person.getLocation().getX() - 20) && (x <= person.getLocation().getX() + 20) && (y <= (person.getLocation().getY() + 20)) && (y >= (person.getLocation().getY() - 20))){
+            if (x >= (person.getLocation().getX() - CHARACTERS_WIDTH/2) &&
+                    (x <= person.getLocation().getX() + CHARACTERS_WIDTH/2) &&
+                    (y <= (person.getLocation().getY() + CHARACTERS_HEIGTH / 2)) &&
+                    (y >= (person.getLocation().getY() - CHARACTERS_HEIGTH / 2))){
                 showCharId.add(person.getId());
             } else {
                 if (showCharId != null && showCharId.contains(person.getId())){
@@ -255,13 +325,47 @@ public class StartRenderer {
                 }
             }
         }
-
-
     }
 
     public void mouseTap(int x, int y){
         if (x >= (widthRatio - 40) && (x <= widthRatio) && (y <= (heightRatio)) && (y >= (heightRatio - 40))){
             Gdx.app.exit();
+        }
+
+        if (onWarriorBtn){
+            if ((x >= widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2 + 15) &&
+                    (x <= widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2 + 131) &&
+                    (y >= (heightRatio / 2 + 3 * CHARACTERS_BTN_HEIGTH / 2 + 20)) &&
+                    (y <= (heightRatio / 2 + 3 * CHARACTERS_BTN_HEIGTH / 2 + 55))) {
+                //Создание Воина
+            }
+        }
+
+        if (onCraftmanBtn){
+            if ((x >= widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2 + 15) &&
+                    (x <= widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2 + 131) &&
+                    (y >= (heightRatio / 2 + CHARACTERS_BTN_HEIGTH / 2 + 20)) &&
+                    (y <= (heightRatio / 2 + CHARACTERS_BTN_HEIGTH / 2 + 55))) {
+                //Создание рабочего
+            }
+        }
+
+        if (onPeasantBtn){
+            if ((x >= widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2 + 15) &&
+                    (x <= widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2 + 131) &&
+                    (y >= (heightRatio / 2 -CHARACTERS_BTN_HEIGTH/2 + 20)) &&
+                    (y <= (heightRatio / 2 -CHARACTERS_BTN_HEIGTH/2 + 55))) {
+                //Создание крестьянина
+            }
+        }
+
+        if (onTraderBtn){
+            if ((x >= widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2 + 15) &&
+                    (x <= widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2 + 131) &&
+                    (y >= (heightRatio / 2 - 3 * CHARACTERS_BTN_HEIGTH / 2 + 20)) &&
+                    (y <= (heightRatio / 2 - 3 * CHARACTERS_BTN_HEIGTH / 2 + 55))) {
+                //Создание торговца
+            }
         }
     }
 }
