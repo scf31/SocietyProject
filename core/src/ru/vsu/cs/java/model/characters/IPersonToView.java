@@ -19,4 +19,5 @@ public interface IPersonToView {
     public Point getLocation();
     public Profession getProfession();
     public Equipment getEquipment();
+    public Person getOpponent();
 }
