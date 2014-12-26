@@ -23,10 +23,10 @@ public class Habitat {
         this.wight = wight;
         this.height = height;
         MarketPlace = new ArrayList<TraderPlace>(20);
-        Forest = new Rectangle(0, 0, 170, 170);             //
-        Farm = new Rectangle(200, 30, 100, 100);            //      Убрать константы.
-        CraftHouse = new Rectangle(300, 500, 100, 100);     //
-        Castle = new Rectangle(wight - 324,0,324,285);       //
+        Forest = new Rectangle(0, 0, 350, 350);             //
+        Farm = new Rectangle(150, height - 320, 300, 300);            //      Убрать константы.
+        CraftHouse = new Rectangle(670, height - 170, 150, 150);     //
+        Castle = new Rectangle(wight - 300,70,261,424);      //
         for (int i = 0; i < 20; i++)
             MarketPlace.add(i,new TraderPlace(new Point(Castle.x+i*30,(int)(Castle.y+Castle.getSize().getHeight()+10))));
     }

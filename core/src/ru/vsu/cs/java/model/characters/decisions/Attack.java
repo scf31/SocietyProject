@@ -12,7 +12,7 @@ public class Attack extends Decision {
     @Override
     public void apply(Person person)
     {
-        if (opponent != null)
+        if (opponent != null && opponent.getStatus()!=PersonState.Died)
         {
             if (opponent.getHealth() < person.getEquipment().getDamage()*person.getLvlBonus() -
                     opponent.getEquipment().getStandUp()*opponent.getLvlBonus())
@@ -39,6 +39,10 @@ public class Attack extends Decision {
                 person.getEquipment().weaponUsed();
                 opponent.getEquipment().armorUsed();
             }
+        }
+        else{
+            person.setStatus(PersonState.LastActionCompleted);
+            person.setOpponent(null);
         }
 
     }

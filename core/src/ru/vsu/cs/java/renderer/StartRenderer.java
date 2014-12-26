@@ -113,8 +113,6 @@ public class StartRenderer {
 
         //Пример создания движка. 30 - кол-во поселенцев (можно любое число)
         engine = new Engine(30,(int)widthRatio,(int)heightRatio);
-
-
     }
 
     public void render(SpriteBatch batch) {
@@ -139,13 +137,13 @@ public class StartRenderer {
                 batch.draw(castle, (int) rect.getX(), (int) rect.getY(), (int) rect.getWidth() , (int)rect.getHeight());
             }
             if (name.equals("crafthouse")){
-                batch.draw(crafthouse, (int) rect.getX(), (int) rect.getY() + (int)rect.getHeight() , (int) rect.getWidth() , (int)rect.getHeight());
+                batch.draw(crafthouse, (int) rect.getX(), (int) rect.getY() , (int) rect.getWidth() , (int)rect.getHeight());
             }
             if (name.equals("forest")){
-                batch.draw(forest, (int) rect.getX(), (int) rect.getY() + (int)rect.getHeight() , (int) rect.getWidth() , (int)rect.getHeight());
+                batch.draw(forest, (int) rect.getX(), (int) rect.getY() , (int) rect.getWidth() , (int)rect.getHeight());
             }
             if (name.equals("farm")){
-                batch.draw(farm, (int) rect.getX(), (int) rect.getY() + (int)rect.getHeight() , (int) rect.getWidth() , (int)rect.getHeight());
+                batch.draw(farm, (int) rect.getX(), (int) rect.getY(), (int) rect.getWidth() , (int)rect.getHeight());
             }
 
         }

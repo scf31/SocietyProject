@@ -27,10 +27,11 @@ public class Engine  {
             if (man.getStatus() != PersonState.Died && man.getHealth() > 0) {
                 Decision newDecision = man.getStrategy().takeDecision(man, new PersonalEnvironment(man, kingdom), kingdom.getHabitat());
                 man.setDecision(newDecision);
-                if (newDecision != null)
+                if (newDecision != null) {
                     newDecision.apply(man);
-                if (man.getStatus()==PersonState.Died)
-                    idToDelelte.add(man.getId());
+                    if (man.getStatus()==PersonState.Died)
+                        idToDelelte.add(man.getId());
+                }
             }
         }
         for (Integer id : idToDelelte) {
