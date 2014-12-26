@@ -69,6 +69,12 @@ public class StartRenderer {
     private boolean onPeasantBtn = false;
     private boolean onTraderBtn = false;
 
+    private int warCnt;
+    private int craftCnt;
+    private int peasCnt;
+    private int tradeCnt;
+
+
     private ArrayList<IPersonToView> characters;
     private Hashtable<String,Rectangle> map;
 
@@ -128,6 +134,10 @@ public class StartRenderer {
     public void render(SpriteBatch batch) {
 //        batch.draw(background,0,0);
 
+        warCnt = 0;
+        craftCnt = 0;
+        peasCnt = 0;
+        tradeCnt = 0;
         int w = (int) widthRatio / 50;
         int h = (int) heightRatio / 50;
 
@@ -161,7 +171,20 @@ public class StartRenderer {
         fightingPersonsId.clear();
         for (IPersonToView person : characters){
 
-
+            switch (person.getProfession()) {
+                case Warrior:
+                    warCnt++;
+                    break;
+                case Craftsman:
+                    craftCnt++;
+                    break;
+                case Peasant:
+                    peasCnt++;
+                    break;
+                case Trader:
+                    tradeCnt++;
+                    break;
+            }
             if (!fightingPersonsId.contains(person.getId())) {
 
 
@@ -288,16 +311,24 @@ public class StartRenderer {
         batch.draw(trader_btn, widthRatio - CHARACTERS_BTN_WIDTH, heightRatio / 2 - 2 * CHARACTERS_BTN_HEIGTH, CHARACTERS_BTN_WIDTH,CHARACTERS_BTN_HEIGTH);
 
         if (onWarriorBtn){
+
             batch.draw(info,widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2, heightRatio/ 2 + 3 * CHARACTERS_BTN_HEIGTH / 2);
+            font.draw(batch,warCnt + "", widthRatio - INFO_ON_BTNS_WIDTH + 48 ,  heightRatio/ 2 + 3 * CHARACTERS_BTN_HEIGTH/2 + 75 );
         }
         if (onCraftmanBtn){
             batch.draw(info,widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2, heightRatio/ 2 + CHARACTERS_BTN_HEIGTH/2);
+
+            font.draw(batch,craftCnt + "", widthRatio - INFO_ON_BTNS_WIDTH + 48 ,  heightRatio/ 2 + CHARACTERS_BTN_HEIGTH/2 + 75 );
         }
         if (onPeasantBtn){
             batch.draw(info,widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2, heightRatio/ 2 - CHARACTERS_BTN_HEIGTH/2);
+
+            font.draw(batch,peasCnt + "", widthRatio - INFO_ON_BTNS_WIDTH + 48 ,  heightRatio/ 2 - CHARACTERS_BTN_HEIGTH/2 + 75 );
         }
         if (onTraderBtn){
             batch.draw(info,widthRatio - INFO_ON_BTNS_WIDTH - CHARACTERS_BTN_WIDTH / 2, heightRatio/ 2 - 3 * CHARACTERS_BTN_HEIGTH / 2);
+
+            font.draw(batch,tradeCnt + "", widthRatio - INFO_ON_BTNS_WIDTH + 48 ,  heightRatio/ 2 - 3 * CHARACTERS_BTN_HEIGTH / 2 + 75 );
         }
         engine.step();
         try {
